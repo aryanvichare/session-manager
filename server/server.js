@@ -1,17 +1,21 @@
-import express from "express";
-import dotenv from "dotenv";
-import http from "http";
-import bodyParser from "body-parser";
-import cors from "cors";
-import morgan from "morgan";
-import { Server } from "socket.io";
-import colors from "colors";
-import { CORS_URL } from "./config.js";
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const http = require("http");
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
+const colors = require("colors");
+
+const { Server } = require("socket.io");
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
 
+const PORT = process.env.PORT || 5000;
+const server = http.createServer(app);
+
+server.listen(PORT);
+
+/*
 dotenv.config();
 
 app.use(morgan("tiny"));
@@ -24,48 +28,63 @@ app.use(
     parameterLimit: 50000,
   })
 );
+*/
 
-app.use(cors({ origin: CORS_URL, optionsSuccessStatus: 200 }));
+let users = [];
+
+const io = new Server(server, {
+  cors: { origin: "http://localhost:3000", credentials: true },
+});
+
+app.use(bodyParser.json());
+app.use(cors({ origin: "*", optionsSuccessStatus: 200 }));
 
 app.get("/", (req, res) => {
   res.send("API is Running!");
+});
+
+app.post("/clients", (req, res) => {
+  const { sessionId } = req.body;
+  console.log(users);
+  const clients = users.filter((user) => user.sessionId === sessionId);
+
+  res.status(200).json({ clients });
 });
 
 io.on("connection", (socket) => {
   console.log("we have connected bois");
 
   // Create Room Event
-  socket.on("join_room", (roomId) => {
-    socket.join(roomId);
-  });
+  socket.on("join_room", ({ sessionId, name }) => {
+    console.log(`${name} - ${sessionId} has connected`);
+    socket.join(sessionId);
 
-  // New User Event
-  socket.on("new_user", (name) => {
-    socket.username = name;
-    console.log(`${name} joined in the party!`);
-    socket.broadcast.emit("new_user", { username: name });
+    users.push({ id: socket.id, name, sessionId });
+
+    const allUsersInSession = users.filter(
+      (user) => user.sessionId === sessionId
+    );
+
+    socket.to(sessionId).emit("new_user", { users: allUsersInSession, name });
   });
 
   // Add Message Event
-  socket.on("new_message", ({ message, roomId }) => {
-    socket.to(room).emit("Message", {
+  socket.on("new_message", ({ message, sessionId, name }) => {
+    socket.to(sessionId).emit("user_message", {
       message,
-      name: socket.username,
+      name,
     });
   });
 
   // User Disconnect Event
-  socket.on("user_disconnect", function () {
-    console.log(`${name} has left the party!`);
-    io.emit("user_disconnect", { username: socket.username });
+  socket.on("disconnect", function () {
+    const disconnectedUser = users.filter((user) => user.id === socket.id)[0];
+    users = users.filter((user) => user.id !== disconnectedUser?.id);
+
+    console.log(`${disconnectedUser?.name} left the party!`);
+    io.emit("user_disconnect", {
+      name: disconnectedUser?.name,
+      connectedUsers: users,
+    });
   });
 });
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(
-  PORT,
-  console.log(
-    `Server running in ${process.env.NODE_ENV} mode on Port ${PORT}`.yellow.bold
-  )
-);
