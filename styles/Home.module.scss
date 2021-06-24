@@ -1,8 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
+$primary: #3d6aff;
+
 .container {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,7 +14,7 @@
 .header {
   width: 100%;
   text-align: center;
-  color: #3d6aff;
+  color: $primary;
   font-size: 3.5rem;
   font-weight: 700;
   font-family: "Inter";
@@ -21,11 +23,17 @@
 
 .startButton {
   cursor: pointer;
-  background-color: #3d6aff;
+  background-color: $primary;
   padding: 1rem 3rem;
   color: white;
   border-radius: 0.5rem;
   border: transparent;
   font-weight: 700;
   font-size: 1.1rem;
+  opacity: 100%;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    opacity: 95%;
+  }
 }
