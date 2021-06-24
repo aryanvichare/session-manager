@@ -34,7 +34,7 @@ const Join = () => {
       <div className={styles.container}>
         <div className={styles.card}>
           <form onSubmit={createSession} className={styles.form} action='#'>
-            <h1 className={styles.header}>Create a Session</h1>
+            <h1 className={styles.header}>Join a Session</h1>
             <input
               required
               className={styles.input}

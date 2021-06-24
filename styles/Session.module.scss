@@ -1,0 +1,156 @@
+$primary: #3d6aff;
+
+.screenLayout {
+  width: 100%;
+  background: linear-gradient(to right, #5433ff, #20bdff, #a5fecb);
+}
+
+.container {
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 450px 1fr;
+  gap: 3rem;
+  margin: 0 20px;
+}
+
+.participantsList {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: white;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
+  padding: 30px 20px;
+  border-radius: 4px;
+
+  .flex {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      color: #34d399;
+      font-family: "Inter";
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+}
+
+.chatContainer {
+  font-family: "Inter";
+  background-color: white;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
+  padding: 30px 20px;
+  border-radius: 4px;
+  height: 550px;
+
+  .chatWindow {
+    overflow-y: scroll;
+    height: 90%;
+  }
+
+  .chatForm {
+    position: relative;
+    width: 100%;
+    height: 10%;
+
+    .chatbox {
+      width: 100%;
+      padding: 8px 10px;
+      margin-top: 15px;
+      border-color: $primary;
+      font-size: 15px;
+      font-weight: 600;
+      border: 4px solid $primary;
+      outline: none;
+      border-radius: 4px;
+      transition: all 0.1s ease-in-out;
+    }
+  }
+}
+
+.chatSubmit {
+  position: absolute;
+  top: 42%;
+  right: 10px;
+  cursor: pointer;
+  background-color: $primary;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 10px;
+  border: transparent;
+  border-radius: 5px;
+}
+
+.header {
+  font-family: "Inter";
+  font-size: 2rem;
+  font-weight: 700;
+  color: $primary;
+}
+
+.form {
+  padding: 20px 0;
+}
+
+.input {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 15px;
+  border-color: $primary;
+  font-size: 15px;
+  font-weight: 600;
+  border: 3px solid $primary;
+  outline: none;
+  border-radius: 4px;
+  transition: all 0.1s ease-in-out;
+
+  &:focus {
+    border: 4px solid $primary;
+  }
+}
+
+.autofillSuccess {
+  font-family: "Inter";
+  color: #34d399;
+  margin-top: 5px;
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.joinButton {
+  cursor: pointer;
+  background-color: $primary;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  width: 100%;
+  padding: 15px 0;
+  border: transparent;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+@media only screen and (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
