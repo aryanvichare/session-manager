@@ -1,10 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const http = require("http");
 const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const colors = require("colors");
 
 const { Server } = require("socket.io");
 
@@ -14,21 +11,6 @@ const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 
 server.listen(PORT);
-
-/*
-dotenv.config();
-
-app.use(morgan("tiny"));
-app.use(bodyParser.json({ limit: "10mb" }));
-
-app.use(
-  bodyParser.urlencoded({
-    limit: "10mb",
-    extended: true,
-    parameterLimit: 50000,
-  })
-);
-*/
 
 let users = [];
 
@@ -52,7 +34,7 @@ app.post("/clients", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("we have connected bois");
+  console.log("Connection Established.");
 
   // Create Room Event
   socket.on("join_room", ({ sessionId, name }) => {

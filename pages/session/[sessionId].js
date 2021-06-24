@@ -5,7 +5,12 @@ import io from "socket.io-client";
 import styles from "@/styles/Session.module.scss";
 import Participant from "@/components/Participant/Participant";
 import Notification from "@/components/Notification/Notification";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import axios from "axios";
+import copyToClipboard from "utils/copyToClipboard";
 
 const LOCALSTORAGE_NAME_KEY = "session-name-autofill";
 const ENDPOINT = "http://localhost:5000";
@@ -41,11 +46,19 @@ const Session = () => {
     if (!sessionId) return null;
     const name = localStorage.getItem(LOCALSTORAGE_NAME_KEY);
 
-    setParticipants([...participants, { name, sessionId, id: socketRef.id }]);
-
     if (!name) {
       Router.push(`/join/${sessionId}`);
     }
+
+    setParticipants([...participants, { name, sessionId, id: socketRef.id }]);
+    setNotifications([
+      {
+        type: "bot",
+        name: "🤖",
+        message:
+          "Welcome to Session Manager. Feel free to share this session with friends and chat with others. 🎉",
+      },
+    ]);
 
     // fetch current users
     socketRef.emit("join_room", { sessionId, name });
@@ -102,9 +115,28 @@ const Session = () => {
     setMessage("");
   };
 
+  const shareSession = () => {
+    copyToClipboard(window.location.href);
+
+    toast.success("Link Copied!", {
+      position: "bottom-center",
+    });
+  };
+
   return (
     <div className={styles.screenLayout}>
+      <ToastContainer />
       <div className={styles.container}>
+        <div className={styles.toolbar}>
+          <button
+            onClick={() => Router.push("/")}
+            className={styles.toolbarButton}>
+            Go back Home
+          </button>
+          <button onClick={shareSession} className={styles.toolbarButton}>
+            Share session with friends!
+          </button>
+        </div>
         <div className={styles.grid}>
           <div className={styles.card}>
             <div className={styles.flex}>

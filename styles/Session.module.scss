@@ -16,6 +16,31 @@ $primary: #3d6aff;
   padding: 0 20px;
 }
 
+.toolbar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+
+  .toolbarButton {
+    cursor: pointer;
+    background-color: white;
+    color: $primary;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px 15px;
+    border: transparent;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+    margin-left: 10px;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+
 .grid {
   width: 100%;
   display: grid;
