@@ -1,3 +1,5 @@
+$primary: #3d6aff;
+
 .connectMessage {
   font-family: "Inter";
   color: #34d399;
@@ -20,4 +22,13 @@
   text-align: left;
   font-weight: 600;
   margin: 8px 0;
+}
+
+.botMessage {
+  font-family: "Inter";
+  color: $primary;
+  text-align: center;
+  font-weight: 600;
+  margin: 8px 0;
+  line-height: 1.5rem;
 }

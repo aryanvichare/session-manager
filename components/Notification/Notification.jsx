@@ -20,6 +20,13 @@ const Notification = ({ type, name, message }) => {
         </div>
       );
 
+    case "bot":
+      return (
+        <div className={styles.botMessage}>
+          {name} says "{message}"
+        </div>
+      );
+
     default:
       return null;
   }
