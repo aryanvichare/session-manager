@@ -1,5 +1,8 @@
 import Head from "next/head";
+import Router from "next/Router";
 import styles from "../styles/Home.module.scss";
+
+import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
   return (
@@ -11,7 +14,11 @@ const Home = () => {
       </Head>
       <div className={styles.container}>
         <h1 className={styles.header}>Session Manager</h1>
-        <button className={styles.startButton}>Get Started</button>
+        <button
+          onClick={() => Router.push(`/join/${uuidv4()}`)}
+          className={styles.startButton}>
+          Get Started
+        </button>
       </div>
     </div>
   );
